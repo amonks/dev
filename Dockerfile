@@ -39,11 +39,6 @@ RUN \
     apt-get install -y zsh
 
 RUN \
-# Install a couple of helpful utilities
-    apt-get install -y ack-grep &&\
-    gem install git-duet --no-rdoc --no-ri
-
-RUN \
 # Set up SSH. We set up SSH forwarding so that transactions like git pushes
 # from the container happen magically.
     apt-get install -y openssh-server &&\
