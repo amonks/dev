@@ -1,5 +1,6 @@
 FROM ubuntu:latest
 MAINTAINER Andrew Monks <a@monks.co>
+LABEL version="v36"
 
 # Start by changing the apt output, as stolen from Discourse's Dockerfiles.
 RUN \
