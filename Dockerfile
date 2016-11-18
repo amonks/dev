@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 MAINTAINER Andrew Monks <a@monks.co>
-LABEL version="v36"
+LABEL version="v37"
 
 # Start by changing the apt output, as stolen from Discourse's Dockerfiles.
 RUN \
@@ -58,12 +58,6 @@ RUN useradd dev -d /home/dev -m -s /bin/zsh &&\
 USER dev
 
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
-
-RUN \
-# Set up The Editor of the Gods
-    homesick clone dpetersen/vimfiles &&\
-    homesick symlink vimfiles &&\
-    cd ~/.vim/bundle_storage/vimproc.vim && make
 
 RUN \
 # Set up neovim
