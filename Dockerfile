@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 MAINTAINER Andrew Monks <a@monks.co>
-LABEL version="v37"
+LABEL version="v38"
 
 # Start by changing the apt output, as stolen from Discourse's Dockerfiles.
 RUN \
@@ -58,12 +58,6 @@ RUN useradd dev -d /home/dev -m -s /bin/zsh &&\
 USER dev
 
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
-
-RUN \
-# Set up neovim
-    mkdir ~/.config &&\
-    ln -s ~/.vim ~/.config/nvim &&\
-    ln -s ~/.vimrc ~/.config/nvim/init.vim
 
 # Expose SSH
 EXPOSE 22
