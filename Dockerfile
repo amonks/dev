@@ -27,8 +27,7 @@ RUN \
 
 RUN \
 # Install Homesick, through which zsh and vim configurations will be installed
-    apt-get install -y ruby &&\
-    gem install homesick --no-rdoc --no-ri
+    apt-get install -y ruby
 
 RUN \
 # Install the Github Auth gem, which will be used to get SSH keys from GitHub
@@ -63,11 +62,6 @@ RUN useradd dev -d /home/dev -m -s /bin/zsh &&\
 USER dev
 
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
-
-RUN \
-# Set up shell
-    homesick clone dpetersen/zshfiles &&\
-    homesick symlink zshfiles
 
 RUN \
 # Set up The Editor of the Gods
