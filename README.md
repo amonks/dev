@@ -1,27 +1,14 @@
 # dev-container-base
 
-[![Docker Hub](https://img.shields.io/badge/docker-ready-blue.svg)](https://registry.hub.docker.com/u/dpetersen/dev-container-base/)
-[![](https://badge.imagelayers.io/dpetersen/dev-container-base.svg)](https://imagelayers.io/?images=dpetersen/dev-container-base:latest 'Get your own badge on imagelayers.io')
-
 A container with my basic dev tools running on Ubuntu. It does not have any languages or their specific tools installed. This could be used as a base image for developing in a specific language. Access is via SSH with the account `dev`, which has sudo.
+
+I stole much of this from Don Petersen's excellent [repo](https://github.com/dpetersen/dev-container-base)
 
 ## Starting
 
-The container exposes SSH and uses [GitHub's public key API](https://developer.github.com/v3/users/keys/) to add the keys for authorized users to `~/.ssh/authorized_keys` for the `dev` account. You must specify all of the allowed GitHub usernames as the `AUTHORIZED_GH_USERS` environment variable during `docker run`. Here's an example:
-
-I start it like so:
-```bash
-docker run -d \
-  -e AUTHORIZED_GH_USERS="dpetersen,otherperson" \
-  -p 0.0.0.0:31981:22 \
-  dpetersen/dev-container-base:latest
-```
+Use gce kubernetes. Set an env called AUTHORIZED_GH_USERS to `amonks`.
 
 If the GitHub API is down or the user doesn't exist / has no keys, you'll get an error.
-
-*You'll probably want to add some volume mounts to that command, so that your code isn't cloned inside of the container and potentially lost!*
-
-Step 3: profit.
 
 ## Connecting
 
@@ -55,20 +42,19 @@ Since I build images roughly once per year, I need to remind myself how to do it
 #### Building
 
 ```bash
-docker build .
+gcloud docker -- build .
 ```
 *Did you update something that won't trigger a Dockerfile change, like push to your vimfiles? Use the `--no-cache` flag.*
 
 #### Tagging
 
 ```bash
-docker tag <YOUR SHA HERE> dpetersen/dev-container-base:v1
+gcloud docker -- tag <YOUR SHA HERE> dpetersen/dev-container-base:v1
 ```
 
 *Don't forget to tag `latest`! It's a manual process, not magic!*
 
-#### Pushing
-
 ```bash
-docker push dpetersen/dev-container-base
+gcloud docker -- push gcr.io/dev-[numbers]/v1
 ```
+
