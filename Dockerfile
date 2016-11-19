@@ -48,6 +48,7 @@ RUN useradd dev -d /home/dev -m &&\
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 RUN \
+    curl -sL https://deb.nodesource.com/setup_7.x | bash &&\
     apt-get install -y nodejs
 
 USER dev
