@@ -68,10 +68,6 @@ RUN \
     git clone --bare https://github.com/amonks/cfg.git $HOME/.cfg &&\
     git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
 
-RUN \
-    ln -s ~/.vim ~/.config/nvim &&\
-    ln -s ~/.vimrc ~/.config/nvim/init.vim
-
 # Expose SSH
 EXPOSE 22
 
