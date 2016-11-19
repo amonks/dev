@@ -1,6 +1,6 @@
+# v40
 FROM ubuntu:latest
 MAINTAINER Andrew Monks <a@monks.co>
-LABEL version="v39"
 
 # Start by changing the apt output, as stolen from Discourse's Dockerfiles.
 RUN \
