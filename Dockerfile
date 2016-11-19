@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 MAINTAINER Andrew Monks <a@monks.co>
-LABEL version="v38"
+LABEL version="v39"
 
 # Start by changing the apt output, as stolen from Discourse's Dockerfiles.
 RUN \
@@ -36,10 +36,6 @@ RUN \
     gem install github-auth --no-rdoc --no-ri
 
 RUN \
-# Install zsh
-    apt-get install -y zsh
-
-RUN \
 # Set up SSH. We set up SSH forwarding so that transactions like git pushes
 # from the container happen magically.
     apt-get install -y openssh-server &&\
@@ -51,7 +47,7 @@ RUN \
 # aren't set.
     locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
-RUN useradd dev -d /home/dev -m -s /bin/zsh &&\
+RUN useradd dev -d /home/dev -m &&\
     adduser dev sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
