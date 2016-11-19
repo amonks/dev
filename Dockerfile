@@ -52,7 +52,11 @@ RUN \
     apt-get install -y nodejs
 
 RUN \
-    apt-get install -y fish &&\
+    add-apt-repository ppa:fish-shell/nightly-master &&\
+    apt-get update &&\
+    apt-get install -y fish
+
+RUN \
     apt-get install -y autojump
 
 USER dev
