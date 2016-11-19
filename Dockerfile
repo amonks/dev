@@ -43,10 +43,6 @@ RUN \
 # aren't set.
     locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
-RUN useradd dev -d /home/dev -m &&\
-    adduser dev sudo && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
 RUN \
     curl -sL https://deb.nodesource.com/setup_7.x | bash &&\
     apt-get install -y nodejs
@@ -58,6 +54,10 @@ RUN \
 
 RUN \
     apt-get install -y autojump
+
+RUN useradd dev -d /home/dev -m -s /usr/bin/fish &&\
+    adduser dev sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER dev
 
