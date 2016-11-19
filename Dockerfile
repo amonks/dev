@@ -13,12 +13,8 @@ RUN \
     apt-get install -y sudo openssh-client git build-essential vim ctags man curl direnv software-properties-common
 
 RUN \
-# Set up for pairing with wemux.
-    apt-get install -y tmux &&\
-    git clone git://github.com/zolrath/wemux.git /usr/local/share/wemux &&\
-    ln -s /usr/local/share/wemux/wemux /usr/local/bin/wemux &&\
-    cp /usr/local/share/wemux/wemux.conf.example /usr/local/etc/wemux.conf &&\
-    echo "host_list=(dev)" >> /usr/local/etc/wemux.conf
+# Install tmux
+    apt-get install -y tmux
 
 RUN \
 # Install neovim
