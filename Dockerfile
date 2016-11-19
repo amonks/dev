@@ -63,6 +63,15 @@ USER dev
 
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
 
+RUN \
+    alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME' &&\
+    git clone --bare https://github.com/amonks/cfg.git $HOME/.cfg &&\
+    config checkout
+
+RUN \
+    ln -s ~/.vim ~/.config/nvim &&\
+    ln -s ~/.vimrc ~/.config/nvim/init.vim
+
 # Expose SSH
 EXPOSE 22
 
