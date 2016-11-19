@@ -23,7 +23,7 @@ RUN \
     apt-get install neovim
 
 RUN \
-# Install Homesick, through which zsh and vim configurations will be installed
+# Install ruby
     apt-get install -y ruby
 
 RUN \
@@ -46,6 +46,9 @@ RUN \
 RUN useradd dev -d /home/dev -m &&\
     adduser dev sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN \
+    apt-get install -y nodejs
 
 USER dev
 
