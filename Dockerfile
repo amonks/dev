@@ -1,4 +1,4 @@
-# v43
+# v44
 FROM ubuntu:latest
 MAINTAINER Andrew Monks <a@monks.co>
 
@@ -64,9 +64,8 @@ USER dev
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
 
 RUN \
-    alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME' &&\
     git clone --bare https://github.com/amonks/cfg.git $HOME/.cfg &&\
-    config checkout
+    git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
 
 RUN \
     ln -s ~/.vim ~/.config/nvim &&\
