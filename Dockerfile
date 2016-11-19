@@ -51,6 +51,10 @@ RUN \
     curl -sL https://deb.nodesource.com/setup_7.x | bash &&\
     apt-get install -y nodejs
 
+RUN \
+    apt-get install -y fish &&\
+    apt-get install -y autojump
+
 USER dev
 
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
