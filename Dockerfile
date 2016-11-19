@@ -62,6 +62,7 @@ RUN useradd dev -d /home/dev -m -s /usr/bin/fish &&\
 USER dev
 
 ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
+ADD bin /home/dev/bin
 
 RUN \
     git clone --bare https://github.com/amonks/cfg.git $HOME/.cfg &&\
