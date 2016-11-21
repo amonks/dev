@@ -13,8 +13,8 @@ RUN \
     apt-get install -y sudo openssh-client git build-essential vim ctags man curl direnv software-properties-common
 
 RUN \
-# Install tmux
-    apt-get install -y tmux
+# Install tmux and mosh
+    apt-get install -y tmux mosh
 
 RUN \
 # Install neovim
@@ -44,18 +44,24 @@ RUN \
     locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
 RUN \
-    curl -sL https://deb.nodesource.com/setup_7.x | bash &&\
-    apt-get install -y nodejs
-
-RUN \
+# install fish
     add-apt-repository ppa:fish-shell/nightly-master &&\
     apt-get update &&\
     apt-get install -y fish
 
 RUN \
-    apt-get install -y autojump
+# install cli utils
+    apt-get install -y autojump &&\
+    apt-get install -y silversearcher-ag
 
-RUN useradd dev -d /home/dev -m -s /usr/bin/fish &&\
+RUN \
+# install node
+    curl -sL https://deb.nodesource.com/setup_7.x | bash &&\
+    apt-get install -y nodejs
+
+RUN \
+# set up dev user
+    useradd dev -d /home/dev -m -s /usr/bin/fish &&\
     adduser dev sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
@@ -65,8 +71,21 @@ ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
 ADD bin /home/dev/bin
 
 RUN \
+    git config --global user.name "Andrew Monks" &&\
+    git config --global user.email "a@monks.co"
+
+RUN \
+# set up oh my fish
+    curl -L http://get.oh-my.fish > ~/install-omf.fish &&\
+    fish ~/install-omf.fish --noninteractive &&\
+    rm ~/install-omf.fish
+
+RUN \
+# this is last cuz it updates often
+# do config
     git clone --bare https://github.com/amonks/cfg.git $HOME/.cfg &&\
-    git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+    git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout &&\
+    git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
 # Expose SSH
 EXPOSE 22
