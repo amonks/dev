@@ -9,6 +9,11 @@ RUN \
     apt-get update
 
 RUN \
+# Fix for occasional errors in perl stuff (git, ack) saying that locale vars
+# aren't set.
+    locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
+
+RUN \
 # Basic dev tools
     apt-get install -y sudo openssh-client git build-essential vim ctags man curl direnv software-properties-common
 
@@ -37,11 +42,6 @@ RUN \
     apt-get install -y openssh-server &&\
     mkdir /var/run/sshd &&\
     echo "AllowAgentForwarding yes" >> /etc/ssh/sshd_config
-
-RUN \
-# Fix for occasional errors in perl stuff (git, ack) saying that locale vars
-# aren't set.
-    locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
 RUN \
 # install fish
