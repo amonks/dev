@@ -82,8 +82,11 @@ ADD ssh_key_adder.rb /home/dev/ssh_key_adder.rb
 ADD bin /home/dev/bin
 
 RUN \
+# configure git
     git config --global user.name "Andrew Monks" &&\
-    git config --global user.email "a@monks.co"
+    git config --global user.email "a@monks.co" &&\
+    git config --global core.excludesfile ~/.config/gitignore-global
+    git config --global push.default simple
 
 RUN \
 # set up oh my fish
