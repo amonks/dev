@@ -25,7 +25,7 @@ RUN \
 # Install neovim
     add-apt-repository ppa:neovim-ppa/unstable &&\
     apt-get update &&\
-    apt-get install neovim
+    apt-get install -y neovim
 
 RUN \
 # Install ruby
@@ -64,11 +64,11 @@ RUN \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
     echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
     apt-get update &&\
-    apt-get install yarn
+    apt-get install -y yarn
 
 RUN \
 # install flow deps
-    apt-get install ocaml libelf-dev
+    apt-get install -y ocaml libelf-dev
 
 RUN \
 # set up dev user
