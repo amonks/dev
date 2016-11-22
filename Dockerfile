@@ -60,6 +60,17 @@ RUN \
     apt-get install -y nodejs
 
 RUN \
+# install yarn
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
+    echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
+    apt-get update &&\
+    apt-get install yarn
+
+RUN \
+# install flow deps
+    apt-get install ocaml libelf-dev
+
+RUN \
 # set up dev user
     useradd dev -d /home/dev -m -s /usr/bin/fish &&\
     adduser dev sudo && \
