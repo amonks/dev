@@ -1,0 +1,126 @@
+---
+- hosts: devo-root
+  gather_facts: False
+  tasks:
+  - name: install python
+    pacman: 
+      name: python
+      state: latest
+
+- hosts: devo-root
+  vars:
+    user: ajm
+    github_user: amonks
+  tasks:
+    - name: System Update
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
+    - name: set up hostname
+      hostname:
+        name: devo
+
+    - name: set up locales
+      locale_gen:
+        name: en_US.UTF-8
+        state: present
+
+    - name: install sudo
+      pacman:
+        name: sudo
+        state: latest
+
+    - name: set up user
+      user:
+        name: "{{ user }}"
+        shell: /usr/bin/fish
+
+    - name: set up sudoers
+      lineinfile:
+        validate: 'visudo -cf %s'
+        path: /etc/sudoers
+        line: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
+
+    - name: Set up keys
+      authorized_key:
+        user: ajm
+        state: present
+        key: https://github.com/{{ github_user }}.keys
+
+- hosts: devo-ajm
+  vars:
+    user: ajm
+    github_user: amonks
+  tasks:
+    - name: install fish
+      become: true
+      pacman:
+        name: fish
+        state: latest
+
+    - name: install tmux
+      become: true
+      pacman:
+        name: tmux
+        state: latest
+
+    - name: install vim
+      become: true
+      pacman:
+        name: vim
+        state: latest
+
+    - name: install hub
+      become: true
+      pacman:
+        name: hub
+        state: latest
+
+    - name: install nodejs
+      become: true
+      pacman:
+        name: nodejs
+        state: latest
+
+    - name: install yarn
+      become: true
+      pacman:
+        name: yarn
+        state: latest
+
+    - name: set up pacaur-1
+      become: true
+      file:
+        path: /etc/xdg/pacaur
+        state: directory
+
+    - name: set up pacaur-2
+      become: true
+      copy:
+        src: pacaur-config
+        dest: /etc/xdg/pacaur/config
+
+    - name: clone dotfiles
+      git:
+        repo: git@github.com:amonks/cfg.git
+        accept_hostkey: True
+        bare: yes
+        dest: /home/ajm/.cfg
+
+    - name: chown dotfiles
+      file:
+        dest: /home/ajm
+        owner: ajm
+        recurse: yes
+
+    - name: checkout dotfiles
+      command: git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+      become: yes
+      become_user: ajm
+
+    - name: install fishfiles
+      shell: fisher
+      become: yes
+      become_user: ajm
+
